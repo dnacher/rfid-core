@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: dkzVfLshkCQSivkh7qGP
+      MYSQL_DATABASE: rfid
+      MYSQL_USER: uyzlnldyjtdlevwt
+      MYSQL_PASSWORD: dkzVfLshkCQSivkh7qGP
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  springboot-app:
+    build: .
+    container_name: springboot-app
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/rfid
+      SPRING_DATASOURCE_USERNAME: uyzlnldyjtdlevwt
+      SPRING_DATASOURCE_PASSWORD: dkzVfLshkCQSivkh7qGP
+    ports:
+      - "8888:8888"
+volumes:
+  mysql-data:
